@@ -27,9 +27,18 @@ public class MyServlet extends HttpServlet {
             ResultSet rs=pst.executeQuery();
             if(rs.next())
             {
-                request.setAttribute("uname",s);
-                RequestDispatcher rd=request.getRequestDispatcher("home.jsp");
-                rd.forward(request, response);
+                if(rs.getString(3).equals("admin"))
+                {
+                    request.setAttribute("uname",s);
+                    RequestDispatcher rd=request.getRequestDispatcher("adminhome.jsp");
+                    rd.forward(request, response);
+                }
+                else
+                {
+                    request.setAttribute("uname",s);
+                    RequestDispatcher rd=request.getRequestDispatcher("userhome.jsp");
+                    rd.forward(request, response);
+                }
             }
             else
             {

@@ -13,7 +13,7 @@ public class DBConnection {
         }
         catch(Exception e)
         {
-            System.out.println("Error in Connection");
+            System.out.println("Error in Connection"+e);
         }
         return con;
     }

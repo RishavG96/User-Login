@@ -13,7 +13,7 @@
     </head>
     <body style="background:whitespace">
     <center>
-        <div style="background: #ca4335; width:500px; margin-top: 100px; border-radius: 10px; box-shadow: 2px 2px 2px black">
+        <div style="background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black">
             <form style="padding:40px" method="post" action="MyServlet">
                 <table>
                     <tr>

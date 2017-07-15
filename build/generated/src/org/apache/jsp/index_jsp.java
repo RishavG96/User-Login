@@ -48,11 +48,11 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>JSP Page</title>\n");
+      out.write("        <title>LOGIN USER</title>\n");
       out.write("    </head>\n");
       out.write("    <body style=\"background:whitespace\">\n");
       out.write("    <center>\n");
-      out.write("        <div style=\"background: #ca4335; width:500px; margin-top: 100px; border-radius: 10px; box-shadow: 2px 2px 2px black\">\n");
+      out.write("        <div style=\"background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black\">\n");
       out.write("            <form style=\"padding:40px\" method=\"post\" action=\"MyServlet\">\n");
       out.write("                <table>\n");
       out.write("                    <tr>\n");
