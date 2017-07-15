@@ -4,9 +4,17 @@
         <servlet-name>MyServlet</servlet-name>
         <servlet-class>com.prowessapps.MyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterUser</servlet-name>
+        <servlet-class>com.prowessapps.RegisterUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterUser</servlet-name>
+        <url-pattern>/RegisterUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

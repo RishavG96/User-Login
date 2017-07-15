@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>LOGIN USER</title>
     </head>
-    <body style="background:whitespace">
+    <body style="background:whitespace" link="#ffe57f">
     <center>
         <div style="background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black">
             <form style="padding:40px" method="post" action="MyServlet">
@@ -25,12 +25,21 @@
                         <td><input type="password" name="password"/></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="submit" name="login"/></td>
+                        <td colspan="2"><input type="submit" name="login" value="SignIn"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><a href="register.jsp">Sign-Up</a></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="color:white"><%
                             if(request.getAttribute("errorMsg")!=null)
                                 out.println(request.getAttribute("errorMsg"));
+                            %></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="color:white"><%
+                            if(request.getAttribute("regMsg")!=null)
+                                out.println(request.getAttribute("regMsg"));
                             %></td>
                     </tr>
                 </table>

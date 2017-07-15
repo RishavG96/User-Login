@@ -50,7 +50,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
       out.write("        <title>LOGIN USER</title>\n");
       out.write("    </head>\n");
-      out.write("    <body style=\"background:whitespace\">\n");
+      out.write("    <body style=\"background:whitespace\" link=\"#ffe57f\">\n");
       out.write("    <center>\n");
       out.write("        <div style=\"background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black\">\n");
       out.write("            <form style=\"padding:40px\" method=\"post\" action=\"MyServlet\">\n");
@@ -64,13 +64,24 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <td><input type=\"password\" name=\"password\"/></td>\n");
       out.write("                    </tr>\n");
       out.write("                    <tr>\n");
-      out.write("                        <td colspan=\"2\"><input type=\"submit\" name=\"login\"/></td>\n");
+      out.write("                        <td colspan=\"2\"><input type=\"submit\" name=\"login\" value=\"SignIn\"/></td>\n");
+      out.write("                    </tr>\n");
+      out.write("                    <tr>\n");
+      out.write("                        <td colspan=\"2\"><a href=\"register.jsp\">Sign-Up</a></td>\n");
       out.write("                    </tr>\n");
       out.write("                    <tr>\n");
       out.write("                        <td colspan=\"2\" style=\"color:white\">");
 
                             if(request.getAttribute("errorMsg")!=null)
                                 out.println(request.getAttribute("errorMsg"));
+                            
+      out.write("</td>\n");
+      out.write("                    </tr>\n");
+      out.write("                    <tr>\n");
+      out.write("                        <td colspan=\"2\" style=\"color:white\">");
+
+                            if(request.getAttribute("regMsg")!=null)
+                                out.println(request.getAttribute("regMsg"));
                             
       out.write("</td>\n");
       out.write("                    </tr>\n");
