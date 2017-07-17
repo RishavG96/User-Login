@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <context-param>
+        <param-name>driver</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>url</param-name>
+        <param-value>jdbc:mysql://localhost:3306/stp17july</param-value>
+    </context-param>
+    <context-param>
+        <param-name>id</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pwd</param-name>
+        <param-value>password</param-value>
+    </context-param>
     <servlet>
         <servlet-name>MyServlet</servlet-name>
         <servlet-class>com.prowessapps.MyServlet</servlet-class>

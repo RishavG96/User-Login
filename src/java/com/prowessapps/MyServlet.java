@@ -1,11 +1,14 @@
 package com.prowessapps;
 
+import static com.prowessapps.DBConnection.con;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +26,11 @@ public class MyServlet extends HttpServlet {
         String p=request.getParameter("password");
         String rm=request.getParameter("rm");
         try {
+            ServletContext sc=request.getServletContext();
+            String driver=sc.getInitParameter("driver");
+            String url=sc.getInitParameter("url");
+            String id=sc.getInitParameter("id");
+            String pwd=sc.getInitParameter("pwd");
             boolean found=false;
             Cookie ck=null;
             Cookie c[]=request.getCookies();
@@ -40,7 +48,8 @@ public class MyServlet extends HttpServlet {
             {
                 String value=ck.getValue();
                 String s1[]=value.split(":");
-                Connection con=DBConnection.getDbConnection();
+                Class.forName(driver);
+                Connection con=DriverManager.getConnection(url,id,pwd);
                 PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
                 pst.setString(1,s);
                 pst.setString(2,p);
@@ -63,7 +72,8 @@ public class MyServlet extends HttpServlet {
             }
             else
             {
-            Connection con=DBConnection.getDbConnection();
+            Class.forName(driver);
+            Connection con=DriverManager.getConnection(url,id,pwd);
             PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
             pst.setString(1,s);
             pst.setString(2,p);
