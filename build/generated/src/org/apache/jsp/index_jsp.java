@@ -50,6 +50,17 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
       out.write("        <title>LOGIN USER</title>\n");
       out.write("    </head>\n");
+      out.write("    ");
+
+    if(session.getAttribute("role")!=null)
+    {
+        if(session.getAttribute("role").equals("admin"))
+            response.sendRedirect("adminhome.jsp");
+        else
+            response.sendRedirect("userhome.jsp");
+    }
+    
+      out.write("\n");
       out.write("    <body style=\"background:whitespace\" link=\"#ffe57f\">\n");
       out.write("    <center>\n");
       out.write("        <div style=\"background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black\">\n");
@@ -82,6 +93,9 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
                             if(request.getAttribute("regMsg")!=null)
                                 out.println(request.getAttribute("regMsg"));
+                            if(session.getAttribute("errorMsg")!=null){
+                                out.println(session.getAttribute("errorMsg"));
+                            }
                             
       out.write("</td>\n");
       out.write("                    </tr>\n");

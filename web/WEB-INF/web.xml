@@ -20,6 +20,10 @@
         <servlet-name>ShowProfile</servlet-name>
         <servlet-class>com.prowessapps.ShowProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.prowessapps.Logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>ShowProfile</servlet-name>
         <url-pattern>/ShowProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

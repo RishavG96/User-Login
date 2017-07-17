@@ -11,6 +11,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>LOGIN USER</title>
     </head>
+    <%
+    if(session.getAttribute("role")!=null)
+    {
+        if(session.getAttribute("role").equals("admin"))
+            response.sendRedirect("adminhome.jsp");
+        else
+            response.sendRedirect("userhome.jsp");
+    }
+    %>
     <body style="background:whitespace" link="#ffe57f">
     <center>
         <div style="background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black">
@@ -40,6 +49,9 @@
                         <td colspan="2" style="color:white"><%
                             if(request.getAttribute("regMsg")!=null)
                                 out.println(request.getAttribute("regMsg"));
+                            if(session.getAttribute("errorMsg")!=null){
+                                out.println(session.getAttribute("errorMsg"));
+                            }
                             %></td>
                     </tr>
                 </table>

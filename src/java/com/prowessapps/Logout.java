@@ -1,58 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.prowessapps;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MyServlet extends HttpServlet {
+/**
+ *
+ * @author mahe
+ */
+public class Logout extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String s=request.getParameter("username");
-        String p=request.getParameter("password");
         try {
-            Connection con=DBConnection.getDbConnection();
-            PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
-            pst.setString(1,s);
-            pst.setString(2,p);
-            ResultSet rs=pst.executeQuery();
-            if(rs.next())
-            {
-                HttpSession session=request.getSession(true);
-                session.setAttribute("u",s);
-                if(rs.getString(3).equals("admin"))
-                {
-                    session.setAttribute("role", "admin");
-                    session.setAttribute("uname",s);
-                    response.sendRedirect("adminhome.jsp");
-                }
-                else
-                {
-                    session.setAttribute("role", "user");
-                    session.setAttribute("uname",s);
-                    response.sendRedirect("userhome.jsp");
-                }
-            }
-            else
-            {
-                request.setAttribute("errorMsg","Username or Password incorrect");
-                RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-                rd.forward(request, response);
-            }
-        }
+            HttpSession session=request.getSession();
+            session.invalidate();
+            response.sendRedirect("index.jsp");
+        } 
         catch(Exception e)
         {
-            System.out.println("Exception in MyServlet"+e);
+            System.out.println(e);
         }
         finally {
             out.close();
