@@ -34,6 +34,9 @@
                         <td><input type="password" name="password"/></td>
                     </tr>
                     <tr>
+                        <td colspan="2"><input type="checkbox" name="rm" />Remember Me</td>
+                    </tr>
+                    <tr>
                         <td colspan="2"><input type="submit" name="login" value="SignIn"/></td>
                     </tr>
                     <tr>

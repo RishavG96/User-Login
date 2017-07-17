@@ -26,7 +26,7 @@
         
         <center>
             <div style="background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black">
-                <h1>Welcome admin <%out.print(session.getAttribute("uname"));%></h1>
+                <h1>Welcome admin <%out.print(session.getAttribute("u"));%></h1>
                 <a href="ShowUsers">Show all Users</a> &nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="userDelete.jsp">Delete User</a><br><br>
                 <form action="Logout" method="post">

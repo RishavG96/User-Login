@@ -75,6 +75,9 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <td><input type=\"password\" name=\"password\"/></td>\n");
       out.write("                    </tr>\n");
       out.write("                    <tr>\n");
+      out.write("                        <td colspan=\"2\"><input type=\"checkbox\" name=\"rm\" />Remember Me</td>\n");
+      out.write("                    </tr>\n");
+      out.write("                    <tr>\n");
       out.write("                        <td colspan=\"2\"><input type=\"submit\" name=\"login\" value=\"SignIn\"/></td>\n");
       out.write("                    </tr>\n");
       out.write("                    <tr>\n");

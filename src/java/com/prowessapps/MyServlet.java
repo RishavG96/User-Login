@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,48 @@ public class MyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String s=request.getParameter("username");
         String p=request.getParameter("password");
+        String rm=request.getParameter("rm");
         try {
+            boolean found=false;
+            Cookie ck=null;
+            Cookie c[]=request.getCookies();
+            for(Cookie c1:c)
+            {
+                if(c1.getName().equals("mycookie"))
+                {
+                    found=true;
+                    ck=c1;
+                    break;
+                }
+            }
+            
+            if(found)
+            {
+                String value=ck.getValue();
+                String s1[]=value.split(":");
+                Connection con=DBConnection.getDbConnection();
+                PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
+                pst.setString(1,s);
+                pst.setString(2,p);
+                ResultSet rs=pst.executeQuery();
+                if(rs.next())
+                {
+                    
+                    HttpSession session=request.getSession(true);
+                    System.out.println(ck.getName()+s1[0]+s1[1]+s1[2]);
+                    session.setAttribute("u", s1[0]);
+                    if(s1[2].equals("admin")){
+                        session.setAttribute("role", "admin");
+                        response.sendRedirect("adminhome.jsp");
+                    }
+                    else{
+                        session.setAttribute("role", "user");
+                        response.sendRedirect("userhome.jsp");
+                    }
+                }
+            }
+            else
+            {
             Connection con=DBConnection.getDbConnection();
             PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
             pst.setString(1,s);
@@ -28,16 +70,31 @@ public class MyServlet extends HttpServlet {
             ResultSet rs=pst.executeQuery();
             if(rs.next())
             {
+                String value="";
                 HttpSession session=request.getSession(true);
                 session.setAttribute("u",s);
                 if(rs.getString(3).equals("admin"))
                 {
+                    if(rm!=null && rm.equals("on"))
+                    {
+                        value=s+":"+p+":"+"admin";
+                        Cookie cookie=new Cookie("mycookie",value);
+                        cookie.setMaxAge(60*60*24*30);
+                        response.addCookie(cookie);
+                    }
                     session.setAttribute("role", "admin");
                     session.setAttribute("uname",s);
                     response.sendRedirect("adminhome.jsp");
                 }
                 else
                 {
+                    if(rm!=null && rm.equals("on"))
+                    {
+                        value=s+":"+p+":"+"user";
+                        Cookie cookie=new Cookie("mycookie",value);
+                        cookie.setMaxAge(60*60*24*30);
+                        response.addCookie(cookie);
+                    }
                     session.setAttribute("role", "user");
                     session.setAttribute("uname",s);
                     response.sendRedirect("userhome.jsp");
@@ -48,6 +105,7 @@ public class MyServlet extends HttpServlet {
                 request.setAttribute("errorMsg","Username or Password incorrect");
                 RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
+            }
             }
         }
         catch(Exception e)
