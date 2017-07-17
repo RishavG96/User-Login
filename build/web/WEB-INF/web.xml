@@ -8,6 +8,18 @@
         <servlet-name>RegisterUser</servlet-name>
         <servlet-class>com.prowessapps.RegisterUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowUsers</servlet-name>
+        <servlet-class>com.prowessapps.ShowUsers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteUser</servlet-name>
+        <servlet-class>com.prowessapps.DeleteUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowProfile</servlet-name>
+        <servlet-class>com.prowessapps.ShowProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
         <url-pattern>/MyServlet</url-pattern>
@@ -15,6 +27,18 @@
     <servlet-mapping>
         <servlet-name>RegisterUser</servlet-name>
         <url-pattern>/RegisterUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowUsers</servlet-name>
+        <url-pattern>/ShowUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/DeleteUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowProfile</servlet-name>
+        <url-pattern>/ShowProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

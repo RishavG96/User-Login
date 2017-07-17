@@ -12,6 +12,17 @@
         <title>User Home</title>
     </head>
     <body>
-        <h1>Welcome user <%out.print(request.getAttribute("uname"));%></h1>
+        <center>
+            <div style="background: #ca4335; width:500px; margin-top: 200px; border-radius: 10px; box-shadow: 2px 2px 2px black">
+                <h1>Welcome user <%out.print(request.getAttribute("uname"));%></h1>
+                    
+                <a href="ShowProfile?value=<%out.print(request.getAttribute("uname"));%>" >Show Profile</a>
+                
+                <!--<c:url var="ShowProfile" value="ShowProfile">
+                    <c:param name="query" value="${request.getAttribute("uname")}" />
+                </c:url>
+                <a href="${ShowProfile}">Show Profile</a>-->
+            </div>
+        </center>
     </body>
 </html>
