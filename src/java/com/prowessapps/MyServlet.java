@@ -1,6 +1,6 @@
 package com.prowessapps;
 
-import static com.prowessapps.DBConnection.con;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -54,68 +54,98 @@ public class MyServlet extends HttpServlet {
                 pst.setString(1,s);
                 pst.setString(2,p);
                 ResultSet rs=pst.executeQuery();
-                if(rs.next())
+                if(rs.next() && rs.getString("state").equals("loggedout"))
                 {
                     
                     HttpSession session=request.getSession(true);
                     System.out.println(ck.getName()+s1[0]+s1[1]+s1[2]);
                     session.setAttribute("u", s1[0]);
-                    if(s1[2].equals("admin")){
-                        session.setAttribute("role", "admin");
-                        response.sendRedirect("adminhome.jsp");
+                    Connection c1=DBConnection.getDbConnection();
+                    PreparedStatement pst1=c1.prepareStatement("update login_master set state=? where user_id=?");
+                    pst1.setString(1,"loggedin");
+                    pst1.setString(2, s);
+                    int status=pst1.executeUpdate();
+                    if(status>0){
+                        if(s1[2].equals("admin")){
+                            session.setAttribute("role", "admin");
+                            response.sendRedirect("adminhome.jsp");
+                        }
+                        else{
+                            session.setAttribute("role", "user");
+                            response.sendRedirect("userhome.jsp");
+                        }
                     }
-                    else{
-                        session.setAttribute("role", "user");
-                        response.sendRedirect("userhome.jsp");
-                    }
-                }
-            }
-            else
-            {
-            Class.forName(driver);
-            Connection con=DriverManager.getConnection(url,id,pwd);
-            PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
-            pst.setString(1,s);
-            pst.setString(2,p);
-            ResultSet rs=pst.executeQuery();
-            if(rs.next())
-            {
-                String value="";
-                HttpSession session=request.getSession(true);
-                session.setAttribute("u",s);
-                if(rs.getString(3).equals("admin"))
-                {
-                    if(rm!=null && rm.equals("on"))
-                    {
-                        value=s+":"+p+":"+"admin";
-                        Cookie cookie=new Cookie("mycookie",value);
-                        cookie.setMaxAge(60*60*24*30);
-                        response.addCookie(cookie);
-                    }
-                    session.setAttribute("role", "admin");
-                    session.setAttribute("uname",s);
-                    response.sendRedirect("adminhome.jsp");
                 }
                 else
                 {
-                    if(rm!=null && rm.equals("on"))
-                    {
-                        value=s+":"+p+":"+"user";
-                        Cookie cookie=new Cookie("mycookie",value);
-                        cookie.setMaxAge(60*60*24*30);
-                        response.addCookie(cookie);
-                    }
-                    session.setAttribute("role", "user");
-                    session.setAttribute("uname",s);
-                    response.sendRedirect("userhome.jsp");
+                    request.setAttribute("errorMsg", "Already Logged in from different browser");
+                    RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+                    rd.forward(request, response);
                 }
             }
             else
             {
-                request.setAttribute("errorMsg","Username or Password incorrect");
-                RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-                rd.forward(request, response);
-            }
+               
+                Class.forName(driver);
+                Connection con=DriverManager.getConnection(url,id,pwd);
+                PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
+                pst.setString(1,s);
+                pst.setString(2,p);
+                ResultSet rs=pst.executeQuery();
+                if(rs.next())
+                {
+                    if(rs.getString("state").equals("loggedout")){
+                        String value="";
+                        HttpSession session=request.getSession(true);
+                        session.setAttribute("u",s);
+                        Connection c1=DBConnection.getDbConnection();
+                        PreparedStatement pst1=c1.prepareStatement("update login_master set state=? where user_id=?");
+                        pst1.setString(1,"loggedin");
+                        pst1.setString(2, s);
+                        int status=pst1.executeUpdate();
+                        if(status>0){
+                            if(rs.getString(3).equals("admin"))
+                            {
+                                if(rm!=null && rm.equals("on"))
+                                {
+                                    value=s+":"+p+":"+"admin";
+                                    Cookie cookie=new Cookie("mycookie",value);
+                                    cookie.setMaxAge(60*60*24*30);
+                                    //response.addCookie(cookie);
+                                }
+                                session.setAttribute("role", "admin");
+                                session.setAttribute("uname",s);
+                                response.sendRedirect("adminhome.jsp");
+                            }
+                            else
+                            {
+                                if(rm!=null && rm.equals("on"))
+                                {
+                                    value=s+":"+p+":"+"user";
+                                    Cookie cookie=new Cookie("mycookie",value);
+                                    cookie.setMaxAge(60*60*24*30);
+                                    response.addCookie(cookie);
+                                }
+                                session.setAttribute("role", "user");
+                                session.setAttribute("uname",s);
+                                response.sendRedirect("userhome.jsp");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        request.setAttribute("errorMsg", "Already Logged in from different browser");
+                        RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
+                    }
+                }
+                else
+                {   
+                    request.setAttribute("errorMsg","Username or Password incorrect");
+                    RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+                    rd.forward(request, response);
+                }
+               
             }
         }
         catch(Exception e)

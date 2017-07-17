@@ -67,10 +67,11 @@ public class RegisterUser extends HttpServlet {
             System.out.println("above execute");
             int status=pst.executeUpdate();
             System.out.println("Hello World");
-            PreparedStatement pst1=con.prepareStatement("insert into login_master values(?,?,?)");
+            PreparedStatement pst1=con.prepareStatement("insert into login_master values(?,?,?,?)");
             pst1.setString(1, n);
             pst1.setString(2, cp);
             pst1.setString(3, "user");
+            pst1.setString(4, "loggedout");
             int status1=pst1.executeUpdate();
             if(status>0 && status1>0 && n!="" && l!="" && c!="" && g!="" && a!=0 && dob!=null && p!="" && cp!="" && p.equals(cp) )
             {

@@ -7,6 +7,8 @@ package com.prowessapps;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +36,20 @@ public class Logout extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             HttpSession session=request.getSession();
-            session.invalidate();
-            response.sendRedirect("index.jsp");
+            
+            Connection c1=DBConnection.getDbConnection();
+            PreparedStatement pst1=c1.prepareStatement("update login_master set state=? where user_id=?");
+            pst1.setString(1,"loggedout");
+            pst1.setString(2, session.getAttribute("u")+"");
+            int status=pst1.executeUpdate();
+            if(status>0){
+                session.invalidate();
+                response.sendRedirect("index.jsp");
+            }
+            else{
+                session.invalidate();
+                response.sendRedirect("index.jsp");
+            }
         } 
         catch(Exception e)
         {
