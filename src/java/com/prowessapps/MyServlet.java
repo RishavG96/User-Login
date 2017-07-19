@@ -36,7 +36,8 @@ public class MyServlet extends HttpServlet {
             Cookie c[]=request.getCookies();
             for(Cookie c1:c)
             {
-                if(c1.getName().equals("mycookie"))
+                String name="mycookie"+s;
+                if(c1.getName().equals(name))
                 {
                     found=true;
                     ck=c1;
@@ -54,18 +55,33 @@ public class MyServlet extends HttpServlet {
                 pst.setString(1,s);
                 pst.setString(2,p);
                 ResultSet rs=pst.executeQuery();
-                if(rs.next() && rs.getString("state").equals("loggedout"))
+                
+                if(rs.next())
                 {
-                    
-                    HttpSession session=request.getSession(true);
-                    System.out.println(ck.getName()+s1[0]+s1[1]+s1[2]);
-                    session.setAttribute("u", s1[0]);
-                    Connection c1=DBConnection.getDbConnection();
-                    PreparedStatement pst1=c1.prepareStatement("update login_master set state=? where user_id=?");
-                    pst1.setString(1,"loggedin");
-                    pst1.setString(2, s);
-                    int status=pst1.executeUpdate();
-                    if(status>0){
+                    if(rs.getString("state").equals("loggedout")){
+                        HttpSession session=request.getSession(true);
+                        System.out.println(ck.getName()+s1[0]+s1[1]+s1[2]);
+                        session.setAttribute("u", s1[0]);
+                        Connection c1=DBConnection.getDbConnection();
+                        PreparedStatement pst1=c1.prepareStatement("update login_master set state=? where user_id=?");
+                        pst1.setString(1,"loggedin");
+                        pst1.setString(2, s);
+                        int status=pst1.executeUpdate();
+                        if(status>0){
+                            if(s1[2].equals("admin")){
+                                session.setAttribute("role", "admin");
+                                response.sendRedirect("adminhome.jsp");
+                            }
+                            else{
+                                session.setAttribute("role", "user");
+                                response.sendRedirect("userhome.jsp");
+                            }
+                        }
+                    }
+                    else{
+                        HttpSession session=request.getSession(true);
+                        //System.out.println("holaaaa");
+                        session.setAttribute("u", s1[0]);
                         if(s1[2].equals("admin")){
                             session.setAttribute("role", "admin");
                             response.sendRedirect("adminhome.jsp");
@@ -85,7 +101,7 @@ public class MyServlet extends HttpServlet {
             }
             else
             {
-               
+               System.out.println("hello Dear");
                 Class.forName(driver);
                 Connection con=DriverManager.getConnection(url,id,pwd);
                 PreparedStatement pst=con.prepareStatement("select * from login_master where user_id=? and password=?");
@@ -109,9 +125,10 @@ public class MyServlet extends HttpServlet {
                                 if(rm!=null && rm.equals("on"))
                                 {
                                     value=s+":"+p+":"+"admin";
-                                    Cookie cookie=new Cookie("mycookie",value);
+                                    String name="mycookie"+s;
+                                    Cookie cookie=new Cookie(name,value);
                                     cookie.setMaxAge(60*60*24*30);
-                                    //response.addCookie(cookie);
+                                    response.addCookie(cookie);
                                 }
                                 session.setAttribute("role", "admin");
                                 session.setAttribute("uname",s);
@@ -122,7 +139,8 @@ public class MyServlet extends HttpServlet {
                                 if(rm!=null && rm.equals("on"))
                                 {
                                     value=s+":"+p+":"+"user";
-                                    Cookie cookie=new Cookie("mycookie",value);
+                                    String name="mycookie"+s;
+                                    Cookie cookie=new Cookie(name,value);
                                     cookie.setMaxAge(60*60*24*30);
                                     response.addCookie(cookie);
                                 }

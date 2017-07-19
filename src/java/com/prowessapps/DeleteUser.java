@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class DeleteUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -16,6 +17,16 @@ public class DeleteUser extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            HttpSession session=request.getSession();
+            if(session.getAttribute("u")==null)
+            {
+                session.setAttribute("errorMsg", "Your session has expired, please login to continue");
+                response.sendRedirect("index.jsp");
+            }
+            else if(session.getAttribute("role").equals("user"))
+            {
+                response.sendRedirect("userhome.jsp");
+            }
             String user=request.getParameter("username");
             Connection con=DBConnection.getDbConnection();
             PreparedStatement pst=con.prepareStatement("delete from login_master where user_id=?");

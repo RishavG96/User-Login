@@ -9,12 +9,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 public class ShowProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            HttpSession session=request.getSession();
+            if(session.getAttribute("u")==null)
+            {
+                session.setAttribute("errorMsg", "Your session has expired, please login to continue");
+                response.sendRedirect("index.jsp");
+            }
+            else if(session.getAttribute("role").equals("user"))
+            {
+                response.sendRedirect("userhome.jsp");
+            }
             String user=request.getParameter("value");
             System.out.println(user);
             Connection con=DBConnection.getDbConnection();
